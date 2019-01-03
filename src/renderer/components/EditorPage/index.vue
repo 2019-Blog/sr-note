@@ -1,7 +1,8 @@
 <template>
   <section class='container'>
-      <div class="title">
+      <div class="title-container">
         <el-input
+          class="input-title"
           prefix-icon="el-icon-tickets"
           placeholder="请输入题目"
           v-model="inputTitle"
@@ -17,7 +18,7 @@
   </section>
 </template>
 <script>
-import MarkDown from 'vue-meditor'
+import MarkDown from '@/components/MarkDown/index'
 export default {
   name: 'editor-page',
   data () {
@@ -50,10 +51,9 @@ export default {
     bottom:0;
     right:0;
   }
-  .title{
+  .title-container{
     margin-left: 180px;
   }
- 
 </style>
 
 

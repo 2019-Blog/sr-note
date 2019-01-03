@@ -276,7 +276,7 @@ export default {
       this.insertContent('- [ ]  ')
     },
     insertLink () { // 插入链接
-      this.insertContent('\n[插入链接](https://github.com/coinsuper)')
+      this.insertContent('\n[插入链接](https://github.com/pearyman)')
     },
     insertImage () { // 插入图片
       this.insertContent('\n![image](https://noticejs.oss-cn-hangzhou.aliyuncs.com/%E6%9C%AA%E6%A0%87%E9%A2%98-3.jpg)')

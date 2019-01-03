@@ -30,13 +30,15 @@
         <el-menu
           default-active="1"
           class="el-menu-vertical-demo">
-          <el-menu-item index="1">
+          <el-menu-item 
+            v-for="(item,index) in titles"
+            :index="String(index+1)"
+            :key="index"
+            :attr="item"
+            @click="handleOpen"
+            >
             <i class="el-icon-document"></i>
-            <span slot="title">测试笔记</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <i class="el-icon-document"></i>
-            <span slot="title">测试笔记</span>
+            <span slot="title">{{item}}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -53,12 +55,21 @@
     </section>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
   },
+  computed: {
+    ...mapGetters([
+      'titles',
+      'activeTitle'
+    ])
+  },
   methods: {
     handleOpen (key, keyPath) {
-      console.log(key, keyPath)
+      console.log(key.$attrs.attr)
+      this.$store.dispatch('updateTitle', key.$attrs.attr)
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)

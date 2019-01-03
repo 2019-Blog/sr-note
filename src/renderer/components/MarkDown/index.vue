@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div :class="isFullscreen?'markdown fullscreen':'markdown' " ref="markdown" :style="{height:`${editorHeight}px`}" @mouseover="addListener" @mouseout="removeListener">
     <!-- 头部工具栏 -->
     <ul class="markdown-toolbars">
@@ -103,7 +103,7 @@
     <div class="markdown-content">
       <div v-show="preview===1||preview===3" class="markdown-editor" ref="markdownContent" @scroll="markdownScroll" @mouseenter="mousescrollSide('markdown')">
         <ul class="index" ref="index" :style="{height:scrollHeight?`${scrollHeight}px`:'100%'}">
-          <li v-for="(item,index) in indexLenth">{{index+1}}</li>
+          <li v-for="(item,index) in indexLenth" :key="index">{{index+1}}</li>
         </ul>
         <textarea v-model="value" @keydown.tab="tab" @keyup.enter="enter" @keyup.delete="onDelete" ref="textarea" :style="{height:scrollHeight?`${scrollHeight}px`:'100%'}"></textarea>
       </div>
