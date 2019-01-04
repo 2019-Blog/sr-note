@@ -19,6 +19,7 @@
 </template>
 <script>
 import MarkDown from '@/components/MarkDown/index'
+import { mapGetters } from 'vuex'
 export default {
   name: 'editor-page',
   data () {
@@ -27,8 +28,26 @@ export default {
       autoSave: false,
       toolbarsConfig: {
         fullscreen: false
+      }
+    }
+  },
+  created () {
+
+  },
+  computed: {
+    ...mapGetters([
+      'activeTitle',
+      'titles',
+      'activeTitleIndex'
+    ]),
+    inputTitle: {
+      get () {
+        return this.$store.state.Blogs.activeTitle
       },
-      inputTitle: ''
+      set (val) {
+        const activeIndex = this.$store.state.Blogs.activeTitleIndex
+        this.$store.dispatch('setTitle', { val, activeIndex })
+      }
     }
   },
   components: { MarkDown },

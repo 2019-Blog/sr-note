@@ -17,6 +17,7 @@
           size="mini" 
           title="新笔记"
           circle
+          @click="addNewNote"
         ></el-button>
         <el-button 
           type="warning" 
@@ -56,23 +57,40 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-
+// import store from '../../store/index'
 export default {
+  data () {
+    return {
+      // titles: this.$store.state.Blogs.titles
+    }
+  },
   components: {
   },
   computed: {
     ...mapGetters([
-      'titles',
-      'activeTitle'
+      'titles'
     ])
   },
+  watch: {
+    titles (val) {
+      console.log(val)
+    }
+
+  },
   methods: {
+    handleTitleArray (newer, older) {
+      this.changetitles = newer
+    },
     handleOpen (key, keyPath) {
-      console.log(key.$attrs.attr)
-      this.$store.dispatch('updateTitle', key.$attrs.attr)
+      this.$store.dispatch('updateTitle', key.index)
+      this.$store.dispatch('updateTitleIndex', key.index)
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    addNewNote () {
+      const newTitle = '无标题'
+      this.$store.dispatch('addNewNote', newTitle)
     }
   }
 }

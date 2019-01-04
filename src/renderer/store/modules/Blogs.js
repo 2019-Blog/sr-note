@@ -1,28 +1,39 @@
 const state = {
-  titles: [
-    '测试笔记这是1',
-    '测试笔记这是2',
-    '测试笔记这是3',
-    '测试笔记这是4',
-    '测试笔记这是5'
-  ],
+  titles: [],
   activeTitle: '',
-  activeTitleIndex: 1
+  activeTitleIndex: '1'
 }
 
 const mutations = {
-  UPDATE_ACTIVE_TITLE (state, title) {
-    state.activeTitle = title
+  UPDATE_ACTIVE_TITLE (state, index) {
+    // const newTitle = state.titles[index - 1]
+    state.activeTitle = state.titles[index - 1]
   },
-  UPDATE_ACTIVE_TITLE_INDEX (state) {
-    state.main++
+  UPDATE_ACTIVE_TITLE_INDEX (state, index) {
+    state.activeTitleIndex = index
+  },
+  ADD_NEW_NOTE (state, title) {
+    // state.titles = []
+    state.titles.unshift(title)
+  },
+  SET_TITLE_NAME (state, { val, activeIndex }) {
+    state.titles.splice(activeIndex - 1, 1, val)
+    // state.titles[activeIndex - 1] = val
   }
 }
 
 const actions = {
-  updateTitle ({ commit }, title) {
-    console.log(8868)
-    commit('UPDATE_ACTIVE_TITLE', title)
+  updateTitle ({ commit }, index) {
+    commit('UPDATE_ACTIVE_TITLE', index)
+  },
+  updateTitleIndex ({ commit }, index) {
+    commit('UPDATE_ACTIVE_TITLE_INDEX', index)
+  },
+  addNewNote ({ commit }, title) {
+    commit('ADD_NEW_NOTE', title)
+  },
+  setTitle ({commit}, { val, activeIndex }) {
+    commit('SET_TITLE_NAME', {val, activeIndex})
   }
 }
 
