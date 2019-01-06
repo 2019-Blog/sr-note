@@ -11,6 +11,7 @@
       </div>
       <mark-down
         :theme=theme
+        :initialValue="initialValue" 
         :autoSave=autoSave
         :toolbars="toolbarsConfig"
         @on-save="handleNoteSave"
@@ -20,11 +21,13 @@
 <script>
 import MarkDown from '@/components/MarkDown/index'
 import { mapGetters } from 'vuex'
+import { addNote } from '@/api/index'
 export default {
   name: 'editor-page',
   data () {
     return {
       theme: 'Dark',
+      initialValue: 'dd',
       autoSave: false,
       toolbarsConfig: {
         fullscreen: false
@@ -50,7 +53,16 @@ export default {
   components: { MarkDown },
   methods: {
     handleNoteSave (data) {
-      console.log(data)
+      let params = {
+        id: this.$store.state.Blogs.currentId || '',
+        title: this.inputTitle,
+        content: data.htmlValue,
+        markdown_content: data.markdownValue
+      }
+      console.log(JSON.stringify(params))
+      addNote(params).then(response => {
+        console.log(response)
+      })
     }
   }
 }

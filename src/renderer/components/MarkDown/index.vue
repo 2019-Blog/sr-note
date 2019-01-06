@@ -117,7 +117,7 @@
 <script>
   import markdown from './markdown'
 
-export default markdown
+  export default markdown
 </script>
 
 <style lang="less">

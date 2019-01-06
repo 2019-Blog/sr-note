@@ -35,11 +35,12 @@
             v-for="(item,index) in titles"
             :index="String(index+1)"
             :key="index"
-            :attr="item"
+            :attr="item.title"
+            :id = "item.id"
             @click="handleOpen"
             >
             <i class="el-icon-document"></i>
-            <span slot="title">{{item}}</span>
+            <span slot="title">{{item.title}}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -57,6 +58,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { getTitles } from '@/api/index'
+import { getContent }  from '@/api/index'
 // import store from '../../store/index'
 export default {
   data () {
@@ -76,15 +79,40 @@ export default {
     titles (val) {
       console.log(val)
     }
-
+  },
+  created () {
+    this.getTitles()
   },
   methods: {
+    getContent(){
+      const currentId = this.$store.state.Blogs.currentId
+      let params = {
+        id : currentId
+      }
+      getContent(params).then(response=>{
+        console.log(response.data.data[0])
+        if(response.data.code === 0){
+          this.initialValue = response.data.data[0].markdown_content
+        }
+      })
+    },
+    getTitles () {
+      getTitles().then(response => {
+        if(response.data.code === 0){
+          const titles = response.data.data
+          this.$store.dispatch('initTitle',titles)
+        }
+      })
+    },
     handleTitleArray (newer, older) {
       this.changetitles = newer
     },
     handleOpen (key, keyPath) {
+      console.log(key.$attrs.id)
       this.$store.dispatch('updateTitle', key.index)
       this.$store.dispatch('updateTitleIndex', key.index)
+      this.$store.dispatch('changeCurrentId',key.$attrs.id)
+      this.getContent()
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)

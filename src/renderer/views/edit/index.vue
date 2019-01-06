@@ -1,7 +1,9 @@
 <template>
   <section class="container">
     <SideBar />
-    <MarkDown />
+    <MarkDown
+       
+    />
   </section>
 </template>
 <script>

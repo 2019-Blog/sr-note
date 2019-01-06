@@ -2,6 +2,7 @@ import hljs from 'highlight.js'
 import marked from 'marked'
 import range from './js/range'
 import Print from './js/print'
+import { getContent }  from '@/api/index'
 
 hljs.initHighlightingOnLoad()
 
@@ -154,6 +155,19 @@ export default {
           this.handleSave()
         }, interval)
       }
+      // this.getContent()
+    },
+    getContent(){
+      const currentId = this.$store.state.Blogs.currentId
+      let params = {
+        id : currentId
+      }
+      getContent(params).then(response=>{
+        console.log(response.data.data[0])
+        if(response.data.code === 0){
+          this.initialValue = response.data.data[0].markdown_content
+        }
+      })
     },
     markdownScroll () {
       if (this.scroll === 'markdown') {
