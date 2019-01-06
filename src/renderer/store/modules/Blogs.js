@@ -14,11 +14,12 @@ const mutations = {
   },
   ADD_NEW_NOTE (state, title) {
     // state.titles = []
+    state.activeTitle = title
     state.titles.unshift(title)
   },
   SET_TITLE_NAME (state, { val, activeIndex }) {
     state.titles.splice(activeIndex - 1, 1, val)
-    // state.titles[activeIndex - 1] = val
+    state.activeTitle = val
   }
 }
 

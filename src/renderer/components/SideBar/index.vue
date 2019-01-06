@@ -29,7 +29,7 @@
       </div>
       <el-col class="menu">
         <el-menu
-          default-active="1"
+          :default-active="activeTitleIndex"
           class="el-menu-vertical-demo">
           <el-menu-item 
             v-for="(item,index) in titles"
@@ -68,7 +68,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'titles'
+      'titles',
+      'activeTitleIndex'
     ])
   },
   watch: {
@@ -117,7 +118,7 @@ export default {
   padding: 0 10px;
   align-items: center;
   width: 160px;
-  color: #b9c4ce;
+  color: #303133;
   position: fixed;
   top: 0;
   left: 0;
