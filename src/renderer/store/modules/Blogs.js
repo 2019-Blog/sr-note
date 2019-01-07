@@ -13,24 +13,26 @@ const mutations = {
     state.activeTitleIndex = index
   },
   ADD_NEW_NOTE (state, title) {
-    // state.titles = []
-    state.activeTitle = title
+    state.activeTitle = title.title
     state.titles.unshift(title)
   },
   SET_TITLE_NAME (state, { val, activeIndex }) {
     state.titles.splice(activeIndex - 1, 1, val)
     state.activeTitle = val
   },
-  TITLE_INIT(state, titles){
+  TITLE_INIT (state, titles) {
     state.titles = titles
   },
-  CURRENT_ID(state,currentId){
+  CURRENT_ID (state, currentId) {
+    state.currentId = currentId
+  },
+  CLEAR_CURRENT_ID (state, currentId) {
     state.currentId = currentId
   }
 }
 
 const actions = {
-  initTitle({ commit },titles){
+  initTitle ({ commit }, titles) {
     commit('TITLE_INIT', titles)
   },
   updateTitle ({ commit }, index) {
@@ -45,8 +47,11 @@ const actions = {
   setTitle ({commit}, { val, activeIndex }) {
     commit('SET_TITLE_NAME', {val, activeIndex})
   },
-  changeCurrentId({commit},currentId){
+  changeCurrentId ({commit}, currentId) {
     commit('CURRENT_ID', currentId)
+  },
+  clearCurrentId ({commit}, currentId) {
+    commit('CLEAR_CURRENT_ID', currentId)
   }
 }
 

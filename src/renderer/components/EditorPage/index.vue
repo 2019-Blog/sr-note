@@ -21,13 +21,14 @@
 <script>
 import MarkDown from '@/components/MarkDown/index'
 import { mapGetters } from 'vuex'
-import { addNote } from '@/api/index'
+import { addNote, getContent } from '@/api/index'
+import bus from '@/utils/common/eventBus'
 export default {
   name: 'editor-page',
   data () {
     return {
       theme: 'Dark',
-      initialValue: 'dd',
+      initialValue: '',
       autoSave: false,
       toolbarsConfig: {
         fullscreen: false
@@ -51,15 +52,38 @@ export default {
     }
   },
   components: { MarkDown },
+  created () {
+    // this.getContent()
+    bus.$on('addNewNote', data => {
+      this.handleNoteSave({})
+    })
+    bus.$on('clearContent', data => {
+      this.initialValue = ''
+    })
+    bus.$on('content', data => {
+      this.initialValue = data
+    })
+  },
   methods: {
+    getContent () {
+      const currentId = this.$store.state.Blogs.currentId
+      let params = {
+        id: currentId
+      }
+      getContent(params).then(response => {
+        console.log(response.data.data[0])
+        if (response.data.code === 0) {
+          this.initialValue = response.data.data[0].markdown_content
+        }
+      })
+    },
     handleNoteSave (data) {
       let params = {
         id: this.$store.state.Blogs.currentId || '',
-        title: this.inputTitle,
-        content: data.htmlValue,
-        markdown_content: data.markdownValue
+        title: this.inputTitle || '',
+        content: data.htmlValue || '',
+        markdown_content: data.markdownValue || ''
       }
-      console.log(JSON.stringify(params))
       addNote(params).then(response => {
         console.log(response)
       })

@@ -59,7 +59,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getTitles } from '@/api/index'
-import { getContent }  from '@/api/index'
+import { getContent } from '@/api/index'
+import bus from '@/utils/common/eventBus'
 // import store from '../../store/index'
 export default {
   data () {
@@ -84,23 +85,24 @@ export default {
     this.getTitles()
   },
   methods: {
-    getContent(){
+    getContent () {
       const currentId = this.$store.state.Blogs.currentId
       let params = {
-        id : currentId
+        id: currentId
       }
-      getContent(params).then(response=>{
+      getContent(params).then(response => {
         console.log(response.data.data[0])
-        if(response.data.code === 0){
-          this.initialValue = response.data.data[0].markdown_content
+        if (response.data.code === 0) {
+          bus.$emit('content', response.data.data[0].markdown_content)
+          // this.initialValue = response.data.data[0].markdown_content
         }
       })
     },
     getTitles () {
       getTitles().then(response => {
-        if(response.data.code === 0){
+        if (response.data.code === 0) {
           const titles = response.data.data
-          this.$store.dispatch('initTitle',titles)
+          this.$store.dispatch('initTitle', titles)
         }
       })
     },
@@ -111,15 +113,21 @@ export default {
       console.log(key.$attrs.id)
       this.$store.dispatch('updateTitle', key.index)
       this.$store.dispatch('updateTitleIndex', key.index)
-      this.$store.dispatch('changeCurrentId',key.$attrs.id)
+      this.$store.dispatch('changeCurrentId', key.$attrs.id)
       this.getContent()
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
     },
     addNewNote () {
-      const newTitle = '无标题'
+      const newTitle = {
+        id: '',
+        title: '无标题'
+      }
       this.$store.dispatch('addNewNote', newTitle)
+      this.$store.dispatch('clearCurrentId', 0)
+      bus.$emit('clearContent', 'clear')
+      bus.$emit('addNewNote', 'hello')
     }
   }
 }
