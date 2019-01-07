@@ -47,13 +47,14 @@ export default {
       },
       set (val) {
         const activeIndex = this.$store.state.Blogs.activeTitleIndex
+        console.log(val)
         this.$store.dispatch('setTitle', { val, activeIndex })
       }
     }
   },
   components: { MarkDown },
   created () {
-    // this.getContent()
+    this.getContent()
     bus.$on('addNewNote', data => {
       this.handleNoteSave({})
     })
@@ -85,7 +86,8 @@ export default {
         markdown_content: data.markdownValue || ''
       }
       addNote(params).then(response => {
-        console.log(response)
+        // console.log(response)
+         this.$store.dispatch('changeCurrentId', response.data.id)
       })
     }
   }

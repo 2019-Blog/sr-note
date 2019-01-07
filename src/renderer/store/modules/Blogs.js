@@ -17,7 +17,11 @@ const mutations = {
     state.titles.unshift(title)
   },
   SET_TITLE_NAME (state, { val, activeIndex }) {
-    state.titles.splice(activeIndex - 1, 1, val)
+    const changeTitle = {
+      id: activeIndex,
+      title: val
+    }
+    state.titles.splice(activeIndex - 1, 1, changeTitle)
     state.activeTitle = val
   },
   TITLE_INIT (state, titles) {

@@ -88,7 +88,7 @@ export default {
     getContent () {
       const currentId = this.$store.state.Blogs.currentId
       let params = {
-        id: currentId
+        id: currentId || ''
       }
       getContent(params).then(response => {
         console.log(response.data.data[0])
@@ -103,6 +103,7 @@ export default {
         if (response.data.code === 0) {
           const titles = response.data.data
           this.$store.dispatch('initTitle', titles)
+          this.$store.dispatch('changeCurrentId', titles[0].id)
         }
       })
     },
@@ -110,7 +111,7 @@ export default {
       this.changetitles = newer
     },
     handleOpen (key, keyPath) {
-      console.log(key.$attrs.id)
+      // console.log(key.$attrs.id)
       this.$store.dispatch('updateTitle', key.index)
       this.$store.dispatch('updateTitleIndex', key.index)
       this.$store.dispatch('changeCurrentId', key.$attrs.id)
@@ -125,6 +126,7 @@ export default {
         title: '无标题'
       }
       this.$store.dispatch('addNewNote', newTitle)
+      this.$store.dispatch('updateTitleIndex', '1')
       this.$store.dispatch('clearCurrentId', 0)
       bus.$emit('clearContent', 'clear')
       bus.$emit('addNewNote', 'hello')
